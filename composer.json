@@ -1,0 +1,23 @@
+{
+    "name": "x3/functional",
+    "type": "library",
+    "description": "Functional Programming Utilities",
+    "keywords": ["functional"],
+    "homepage": "http://github.com/x3tech/functional-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "3onyc",
+            "email": "3onyc@x3tech.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": { "x3\\Functional\\": "" }
+    },
+    "target-dir": "x3/Functional",
+    "minimum-stability": "dev"
+}
+
