@@ -3,6 +3,12 @@ namespace x3\Functional;
 
 class Functional
 {
+    public static function reverseArgs($method)
+    {
+        return function() use ($method) {
+            return $method(array_reverse(func_get_args()));
+        };
+    }
     public static function mapMethod($method)
     {
         $args = array_slice(func_get_args(), 1);
