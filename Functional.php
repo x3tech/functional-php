@@ -26,7 +26,7 @@ class Functional
 
     public static function mapKey($key)
     {
-        return function($array) use($key) {
+        return function($array) use ($key) {
             return $array[$key];
         };
     }
