@@ -44,13 +44,12 @@ class Functional
     public static function compose()
     {
         $callables = array_reverse(func_get_args());
-        $callback = function($args, $callable) {
-            $args = is_array($args) ? $args : array($args);
-            return call_user_func_array($callable, $args);
+        $callback = function($arg, $callable) {
+            return call_user_func($callable, $arg);
         };
 
-        return function() use ($callables, $callback) {
-            return array_reduce($callables, $callback, func_get_args());
+        return function($parameter) use ($callables, $callback) {
+            return array_reduce($callables, $callback, $parameter);
         };
     }
 
