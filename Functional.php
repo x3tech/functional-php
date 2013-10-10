@@ -24,6 +24,41 @@ class Functional
         };
     }
 
+    public static function groupValues()
+    {
+        $keys = func_get_args();
+
+        return function($subjects) use ($keys) {
+            $callback = function($key) use ($subjects) {
+                return array($key, static::arrayColumn($subjects, $key));
+            };
+
+            return static::arrayMapKeys($callback, $keys);
+        };
+    }
+
+    public static function arrayMapKeys($callback, $data)
+    {
+        return static::pairsToDict(array_map($callback, $data));
+    }
+
+    public static function pairsToDict(array $pairs)
+    {
+        $result = array();
+        $callback = function($pair) use (&$result) {
+            $result[$pair[0]] = $pair[1];
+        };
+        array_walk($pairs, $callback);
+
+
+        return $result;
+    }
+
+    public static function arrayColumn($array, $column)
+    {
+        return array_map(Functional::mapKey($column), $array);
+    }
+
     public static function mapKey($key)
     {
         return function($array) use ($key) {
