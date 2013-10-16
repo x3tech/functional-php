@@ -112,4 +112,21 @@ class Functional
             return $result;
         };
     }
+
+    public static function imap($iter, $callback)
+    {
+        $results = array();
+        foreach($iter as $item) {
+            $results[] = call_user_func($callback, $item);
+        }
+
+        return $results;
+    }
+    public static function iwalk($iter, $callback)
+    {
+        foreach($iter as $item) {
+            $callback($item);
+        }
+    }
+
 }
