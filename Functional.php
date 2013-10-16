@@ -6,7 +6,7 @@ class Functional
     public static function reverseArgs($method)
     {
         return function() use ($method) {
-            return $method(array_reverse(func_get_args()));
+            return call_user_func_array($method, array_reverse(func_get_args()));
         };
     }
     public static function mapMethod($method)
