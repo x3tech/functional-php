@@ -37,16 +37,24 @@ class Functional
         };
     }
 
-    public static function arrayMapKeys($callback, $data)
+    public static function arrayMapKeys($callback, $data, $multiDict = false)
     {
-        return static::pairsToDict(array_map($callback, $data));
+        return static::pairsToDict(array_map($callback, $data), $multiDict);
     }
 
-    public static function pairsToDict(array $pairs)
+    public static function pairsToDict(array $pairs, $multiDict = false)
     {
         $result = array();
-        $callback = function($pair) use (&$result) {
-            $result[$pair[0]] = $pair[1];
+        $callback = function($pair) use (&$result, $multiDict) {
+            list($key, $value) = $pair;
+            if($multiDict) {
+                if(!isset($result[$key])) {
+                    $result[$key] = array();
+                }
+                $result[$key][] = $value;
+            } else {
+                $result[$key] = $value;
+            }
         };
         array_walk($pairs, $callback);
 
