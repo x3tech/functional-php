@@ -116,8 +116,8 @@ class Functional
     public static function imap($iter, $callback)
     {
         $results = array();
-        foreach($iter as $item) {
-            $results[] = call_user_func($callback, $item);
+        foreach($iter as $key => $item) {
+            $results[] = call_user_func($callback, $item, $key);
         }
 
         return $results;
