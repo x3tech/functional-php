@@ -129,4 +129,28 @@ class Functional
         }
     }
 
+    public static function imapKeys($iter, $callback, $multiDict)
+    {
+        return static::pairsToDict(static::imap($iter, $callback), $multiDict);
+    }
+
+    public static function igroupBy($iter, $keyCallback)
+    {
+        $callback = function($item) use ($keyCallback) {
+            return array($keyCallback($item), $item);
+        };
+
+        return static::imapKeys($iter, $callback, true);
+    }
+
+    public static function ifindIf($iter, $callback)
+    {
+        foreach ($iter as $item) {
+            if ($callback($item)) {
+                return $item;
+            }
+        }
+
+        return false;
+    }
 }
