@@ -153,4 +153,15 @@ class Functional
 
         return false;
     }
+
+    public static function ireduce($iter, $callback, $initial = null)
+    {
+        $result = $initial;
+        foreach ($iter as $key => $item) {
+            $result = $callback($result, $item, $key);
+        }
+
+        return $result;
+    }
+
 }
