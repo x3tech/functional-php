@@ -44,8 +44,7 @@ class Functional
 
     public static function pairsToDict(array $pairs, $multiDict = false)
     {
-        $result = array();
-        $callback = function($pair) use (&$result, $multiDict) {
+        $callback = function($result, $pair) use ($multiDict) {
             list($key, $value) = $pair;
             if($multiDict) {
                 if(!isset($result[$key])) {
@@ -55,11 +54,11 @@ class Functional
             } else {
                 $result[$key] = $value;
             }
+
+            return $result;
         };
-        array_walk($pairs, $callback);
 
-
-        return $result;
+        return array_reduce($pairs, $callback, array());
     }
 
     public static function arrayColumn($array, $column)
@@ -115,13 +114,12 @@ class Functional
 
     public static function imap($iter, $callback)
     {
-        $results = array();
-        foreach($iter as $key => $item) {
-            $results[] = call_user_func($callback, $item, $key);
-        }
-
-        return $results;
+        return static::ireduce($iter, function($result, $item, $key) use ($callback) {
+            $result[] = call_user_func($callback, $item, $key);
+            return $result;
+        }, array());
     }
+
     public static function iwalk($iter, $callback)
     {
         foreach($iter as $item) {
