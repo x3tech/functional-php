@@ -1,5 +1,6 @@
 {
     "name": "x3/functional",
+    "version": "0.2.0-dev",
     "type": "library",
     "description": "Functional Programming Utilities",
     "keywords": ["functional"],
