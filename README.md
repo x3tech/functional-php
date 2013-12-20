@@ -8,5 +8,3 @@ in PHP.
 * Unit tests
 * Testing everything in general
 * Documentation
-* phpDoc
-
