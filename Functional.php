@@ -30,7 +30,7 @@ class Functional
 
         return function($subjects) use ($keys) {
             $callback = function($key) use ($subjects) {
-                return array($key, static::arrayColumn($subjects, $key));
+                return array($key, static::pluck($subjects, $key));
             };
 
             return static::arrayMapKeys($callback, $keys);
@@ -61,7 +61,7 @@ class Functional
         return array_reduce($pairs, $callback, array());
     }
 
-    public static function arrayColumn($array, $column)
+    public static function pluck($array, $column)
     {
         return array_map(Functional::mapKey($column), $array);
     }
