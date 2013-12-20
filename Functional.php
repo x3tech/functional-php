@@ -50,16 +50,15 @@ class Functional
     {
         $store = array();
 
-        return function() use ($callable, $store) {
+        return function() use ($callable, &$store) {
             $args = func_get_args();
             $key = json_encode($args);
 
             if (!isset($store[$key])) {
-                $result = call_user_func_array($callable, $args);
-                $store[$key] = $result;
+                $store[$key] = call_user_func_array($callable, $args);
             }
 
-            return $result;
+            return $store[$key];
         };
     }
 }
