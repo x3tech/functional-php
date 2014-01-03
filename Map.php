@@ -1,4 +1,6 @@
 <?php
+namespace x3\Functional;
+
 class Map
 {
     /**
