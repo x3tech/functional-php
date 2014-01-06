@@ -10,7 +10,7 @@ class Debug
      *
      * @return mixed Just $var
      */
-    public function tap($var)
+    public static function tap($var)
     {
         var_dump($var);
         return $var;
@@ -21,7 +21,7 @@ class Debug
      *
      * @return callable
      */
-    public function tapCb()
+    public static function tapCb()
     {
         return function ($var) {
             return self::tap($var);
