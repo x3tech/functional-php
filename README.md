@@ -5,6 +5,5 @@ in PHP.
 
 # ToDo
 
-* Unit tests
-* Testing everything in general
+* Type-checking on various methods
 * Documentation
