@@ -13,4 +13,14 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $var, 'Return value failed');
         $this->assertEquals("string(3) \"foo\"\n", $output, 'Dump failed');
     }
+    public function testTapCallback()
+    {
+        $callback = D::tapCb();
+
+        ob_start();
+        $var = $callback('foo');
+        $output = ob_get_clean();
+        $this->assertEquals('foo', $var, 'Return value failed');
+        $this->assertEquals("string(3) \"foo\"\n", $output, 'Dump failed');
+    }
 }

@@ -15,4 +15,16 @@ class Debug
         var_dump($var);
         return $var;
     }
+
+    /**
+     * Returns a callback to Debug::tab
+     *
+     * @return callable
+     */
+    public function tapCb()
+    {
+        return function ($var) {
+            return self::tap($var);
+        };
+    }
 }
