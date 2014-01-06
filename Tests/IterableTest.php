@@ -13,7 +13,7 @@ class IterableTest extends \PHPUnit_Framework_TestCase
             return $input * 2;
         };
 
-        $this->assertEquals([0, 2, 4, 6], I::map($testArray, $callback));
+        $this->assertEquals([0, 2, 4, 6], I::map($callback, $testArray));
     }
 
     public function testWalk()
@@ -36,7 +36,7 @@ class IterableTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [1 => 0, 2 => 2, 3 => 4, 4 => 6],
-            I::mapKeys($testArray, $callback)
+            I::mapKeys($callback, $testArray)
         );
     }
 

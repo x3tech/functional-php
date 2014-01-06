@@ -6,13 +6,17 @@ class Iterable
     /**
      * array_map but for iterables instead of just arrays
      *
-     * @param Iterable $iter     The iterable
      * @param callable $callback The mapping callback
+     * @param Iterable $iter     The iterable
      *
      * @return array Mapped results
      */
-    public static function map($iter, $callback)
+    public static function map($callback, $iter)
     {
+        if (!is_callable($callback)) {
+            throw new \InvalidArgumentException('$callback isn\'t callable');
+        }
+
         return static::reduce($iter, function ($result, $item, $key) use ($callback) {
             $result[] = call_user_func($callback, $item, $key);
             return $result;
@@ -38,14 +42,14 @@ class Iterable
      * Similar to imap but also map the keys
      *
      * @param callable $callback  The callback to use
-     * @param array    $data      Data to map
+     * @param array    $iter      Data to map
      * @param bool     $multiDict Whether to allow multiple values per key
      *
      * @return array The mapped result
      */
-    public static function mapKeys($iter, $callback, $multiDict = false)
+    public static function mapKeys($callback, $iter, $multiDict = false)
     {
-        return static::pairsToDict(static::map($iter, $callback), $multiDict);
+        return static::pairsToDict(static::map($callback, $iter), $multiDict);
     }
 
     /**
@@ -62,7 +66,7 @@ class Iterable
             return [$keyCallback($item), $item];
         };
 
-        return static::mapKeys($iter, $callback, true);
+        return static::mapKeys($callback, $iter, true);
     }
 
     /**
@@ -140,7 +144,7 @@ class Iterable
      */
     public static function pluck($array, $column)
     {
-        return static::map($array, Map::key($column));
+        return static::map(Map::key($column), $array);
     }
 
     /**
@@ -159,7 +163,7 @@ class Iterable
                 return [$key, static::pluck($subjects, $key)];
             };
 
-            return static::mapKeys($keys, $callback);
+            return static::mapKeys($callback, $keys);
         };
     }
 }
