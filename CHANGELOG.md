@@ -1,5 +1,8 @@
 # Changelog
 
+##0.3.1 - 2014-01-06
+- map\* methods now have the same signature as native method ($callback, $array)
+
 ##0.3.0 - 2014-01-06
 - Features
   - Implement `Debug::tap` for debugging function chains
