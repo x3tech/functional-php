@@ -140,7 +140,7 @@ class Iterable
      */
     public static function pluck($array, $column)
     {
-        return static::map(Map::key($column), $array);
+        return static::map($array, Map::key($column));
     }
 
     /**
@@ -159,7 +159,7 @@ class Iterable
                 return array($key, static::pluck($subjects, $key));
             };
 
-            return static::mapKeys($callback, $keys);
+            return static::mapKeys($keys, $callback);
         };
     }
 }
