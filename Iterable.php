@@ -13,7 +13,7 @@ class Iterable
      */
     public static function map($iter, $callback)
     {
-        return static::reduce($iter, function($result, $item, $key) use ($callback) {
+        return static::reduce($iter, function ($result, $item, $key) use ($callback) {
             $result[] = call_user_func($callback, $item, $key);
             return $result;
         }, []);
@@ -29,7 +29,7 @@ class Iterable
      */
     public static function walk($iter, $callback)
     {
-        foreach($iter as $item) {
+        foreach ($iter as $item) {
             $callback($item);
         }
     }
@@ -58,7 +58,7 @@ class Iterable
      */
     public static function groupBy($iter, $keyCallback)
     {
-        $callback = function($item) use ($keyCallback) {
+        $callback = function ($item) use ($keyCallback) {
             return [$keyCallback($item), $item];
         };
 
@@ -113,10 +113,10 @@ class Iterable
      */
     public static function pairsToDict($pairs, $multiDict = false)
     {
-        $callback = function($result, $pair) use ($multiDict) {
+        $callback = function ($result, $pair) use ($multiDict) {
             list($key, $value) = $pair;
-            if($multiDict) {
-                if(!isset($result[$key])) {
+            if ($multiDict) {
+                if (!isset($result[$key])) {
                     $result[$key] = [];
                 }
                 $result[$key][] = $value;
@@ -154,8 +154,8 @@ class Iterable
     {
         $keys = func_get_args();
 
-        return function($subjects) use ($keys) {
-            $callback = function($key) use ($subjects) {
+        return function ($subjects) use ($keys) {
+            $callback = function ($key) use ($subjects) {
                 return [$key, static::pluck($subjects, $key)];
             };
 

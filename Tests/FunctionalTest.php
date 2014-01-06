@@ -7,7 +7,7 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testReverseArgs()
     {
-        $reversed = F::reverseArgs(function ($a, $b) {
+        $reversed = F::reverseArgs(function () {
             return func_get_args();
         });
 
@@ -16,7 +16,7 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
 
     public function testCurry()
     {
-        $curried = F::curry(function ($a, $b) {
+        $curried = F::curry(function () {
             return func_get_args();
         }, 1);
 

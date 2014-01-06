@@ -12,7 +12,7 @@ class Functional
      */
     public static function reverseArgs($method)
     {
-        return function() use ($method) {
+        return function () use ($method) {
             return call_user_func_array($method, array_reverse(func_get_args()));
         };
     }
@@ -28,7 +28,7 @@ class Functional
     {
         $curryArgs = array_slice(func_get_args(), 1);
 
-        return function() use ($callback, $curryArgs) {
+        return function () use ($callback, $curryArgs) {
             $args = array_merge($curryArgs, func_get_args());
             return call_user_func_array($callback, $args);
         };
@@ -37,11 +37,11 @@ class Functional
     public static function compose()
     {
         $callables = array_reverse(func_get_args());
-        $callback = function($arg, $callable) {
+        $callback = function ($arg, $callable) {
             return call_user_func($callable, $arg);
         };
 
-        return function($parameter) use ($callables, $callback) {
+        return function ($parameter) use ($callables, $callback) {
             return array_reduce($callables, $callback, $parameter);
         };
     }
@@ -50,7 +50,7 @@ class Functional
     {
         $store = [];
 
-        return function() use ($callable, &$store) {
+        return function () use ($callable, &$store) {
             $args = func_get_args();
             $key = json_encode($args);
 

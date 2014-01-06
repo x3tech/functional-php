@@ -14,7 +14,7 @@ class Map
     public static function method($method)
     {
         $args = array_slice(func_get_args(), 1);
-        return function($object) use($method, $args) {
+        return function ($object) use ($method, $args) {
             return call_user_func_array([$object, $method], $args);
         };
     }
@@ -29,7 +29,7 @@ class Map
      */
     public static function attribute($attribute)
     {
-        return function($object) use($attribute) {
+        return function ($object) use ($attribute) {
             return $object->$attribute;
         };
     }
@@ -44,7 +44,7 @@ class Map
      */
     public static function key($key)
     {
-        return function($array) use ($key) {
+        return function ($array) use ($key) {
             return $array[$key];
         };
     }
