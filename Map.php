@@ -15,7 +15,7 @@ class Map
     {
         $args = array_slice(func_get_args(), 1);
         return function($object) use($method, $args) {
-            return call_user_func_array(array($object, $method), $args);
+            return call_user_func_array([$object, $method], $args);
         };
     }
 

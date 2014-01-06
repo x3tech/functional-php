@@ -16,7 +16,7 @@ class Iterable
         return static::reduce($iter, function($result, $item, $key) use ($callback) {
             $result[] = call_user_func($callback, $item, $key);
             return $result;
-        }, array());
+        }, []);
     }
 
     /**
@@ -59,7 +59,7 @@ class Iterable
     public static function groupBy($iter, $keyCallback)
     {
         $callback = function($item) use ($keyCallback) {
-            return array($keyCallback($item), $item);
+            return [$keyCallback($item), $item];
         };
 
         return static::mapKeys($iter, $callback, true);
@@ -117,7 +117,7 @@ class Iterable
             list($key, $value) = $pair;
             if($multiDict) {
                 if(!isset($result[$key])) {
-                    $result[$key] = array();
+                    $result[$key] = [];
                 }
                 $result[$key][] = $value;
             } else {
@@ -127,7 +127,7 @@ class Iterable
             return $result;
         };
 
-        return static::reduce($pairs, $callback, array());
+        return static::reduce($pairs, $callback, []);
     }
 
     /**
@@ -156,7 +156,7 @@ class Iterable
 
         return function($subjects) use ($keys) {
             $callback = function($key) use ($subjects) {
-                return array($key, static::pluck($subjects, $key));
+                return [$key, static::pluck($subjects, $key)];
             };
 
             return static::mapKeys($keys, $callback);

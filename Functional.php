@@ -48,7 +48,7 @@ class Functional
 
     public static function memoize($callable)
     {
-        $store = array();
+        $store = [];
 
         return function() use ($callable, &$store) {
             $args = func_get_args();

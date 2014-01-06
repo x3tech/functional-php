@@ -11,7 +11,7 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
             return func_get_args();
         });
 
-        $this->assertEquals(array(2, 1), $reversed(1, 2), 'Arguments not reversed');
+        $this->assertEquals([2, 1], $reversed(1, 2), 'Arguments not reversed');
     }
 
     public function testCurry()
@@ -20,7 +20,7 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
             return func_get_args();
         }, 1);
 
-        $this->assertEquals(array(1, 2), $curried(2), 'Method not curried');
+        $this->assertEquals([1, 2], $curried(2), 'Method not curried');
     }
 
     /**

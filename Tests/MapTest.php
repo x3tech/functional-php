@@ -16,7 +16,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
     public function testMapAttribute()
     {
         $callback = Map::attribute('var');
-        $testObject = (object)array('var' => 'test');
+        $testObject = (object)['var' => 'test'];
 
         $this->assertEquals('test', $callback($testObject));
     }
@@ -24,7 +24,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
     public function testMapKey()
     {
         $callback = Map::key('var');
-        $testArray = array('var' => 'test');
+        $testArray = ['var' => 'test'];
 
         $this->assertEquals('test', $callback($testArray));
     }
