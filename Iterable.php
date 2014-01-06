@@ -1,8 +1,6 @@
 <?php
 namespace x3\Functional;
 
-use Map;
-
 class Iterable
 {
     /**
