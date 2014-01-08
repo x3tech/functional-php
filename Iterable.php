@@ -66,14 +66,16 @@ class Iterable
      *
      * @return array Mapped results
      */
-    public static function map($callback, $iter)
+    public static function map($callback)
     {
         if (!is_callable($callback)) {
             throw new \InvalidArgumentException('$callback isn\'t callable');
         }
 
-        return static::reduce($iter, function ($result, $item, $key) use ($callback) {
-            $result[] = call_user_func($callback, $item, $key);
+        $iter = static::internalZip(array_slice(func_get_args(), 1));
+
+        return static::reduce($iter, function ($result, $item) use ($callback) {
+            $result[] = call_user_func_array($callback, $item);
             return $result;
         }, []);
     }
