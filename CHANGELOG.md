@@ -1,5 +1,11 @@
 # Changelog
 
+##0.4.1 - 2014-01-08
+- Add a toArray function to convert any Iterable to an array
+- Move Dict related functions to x3\Functional\Dict
+- Make mapKeys work with multiple iterables, like map already does
+- Make some additional methods work with iterables
+
 ##0.4.0 - 2014-01-08
 - Add placeholder funtionality to curry
 - Fix `Iterable::map` to allow passing in multiple arrays like native `array_map`
