@@ -1,5 +1,15 @@
 # Changelog
 
+##0.4.0 - 2014-01-08
+- Add placeholder funtionality to curry
+- Fix `Iterable::map` to allow passing in multiple arrays like native `array_map`
+- Add `Iterable::zip` method, similar to Python's `zip` function 
+  but pads with `null`
+- Add `Iterable::multiPad` similar to `array_pad` but accepts an iterable of
+  arrays, padding the other to the length of the longest one
+- Add `Iterable::dictToPairs` function which does the opposite
+  of `Iterable::pairsToDict`
+
 ##0.3.1 - 2014-01-06
 - map\* methods now have the same signature as native method ($callback, $array)
 
