@@ -1,8 +1,63 @@
 <?php
 namespace x3\Functional;
 
+use x3\Functional\Functional as F;
+use x3\Functional\ArgPlaceholder as _;
+
 class Iterable
 {
+    /**
+     * Pads arrays to the length of the longest array with the value of $pad
+     *
+     * @param Iterable $arrays To pad
+     * @param mixed    $pad    What to pad with
+     *
+     * @return array Padded arrays
+     */
+    public static function multiPad($arrays, $pad = null)
+    {
+        $longest = max(static::map('count', $arrays));
+        return static::map(F::curry('array_pad', new _, $longest, $pad), $arrays);
+    }
+
+    /**
+     * Takes an iterable of arrays and zips them (Similar to Python's `zip`)
+     *
+     * Example:
+     *   >>> Iterable::zip([[1, 2, 3], [4, 5]])
+     *   [[1, 4], [2, 5], [3, null]]
+     *
+     * Note:
+     *   as opposed to Python arrays are padded with null if they're shorter
+     *   than the longest array.
+     *
+     * @param Iterable $arrays The arrays to zip
+     *
+     * @return array Zipped arrays
+     */
+    public static function zip(array $arrays)
+    {
+        return static::internalZip($arrays, 'x3\Functional\Iterable::map');
+    }
+
+    /**
+     * @internal
+     *
+     * Internal use, as `map` also uses zip, but that would cause infinite
+     * recursion we use an internal function with a specifiable map function
+     */
+    protected static function internalZip(array $arrays, $mapFunc = 'array_map')
+    {
+        $callback = function () {
+            return func_get_args();
+        };
+
+        return call_user_func_array(
+            $mapFunc,
+            array_merge([$callback], $arrays)
+        );
+    }
+
     /**
      * array_map but for iterables instead of just arrays
      *

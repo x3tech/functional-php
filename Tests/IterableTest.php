@@ -6,6 +6,28 @@ use x3\Functional\Map;
 
 class IterableTest extends \PHPUnit_Framework_TestCase
 {
+    public function testMultiPad()
+    {
+        $arrayA = [0, 1, 2, 3];
+        $arrayB = [1, 2, 3];
+
+        $this->assertEquals(
+            [[0, 1, 2, 3], [1, 2, 3, 'foo']],
+            I::multiPad([$arrayA, $arrayB], 'foo')
+        );
+    }
+
+    public function testZip()
+    {
+        $arrayA = [0, 1, 2, 3];
+        $arrayB = [1, 2, 3];
+
+        $this->assertEquals(
+            [[0, 1], [1, 2], [2, 3], [3, null]],
+            I::zip([$arrayA, $arrayB])
+        );
+    }
+
     public function testMap()
     {
         $testArray = [0, 1, 2, 3];
@@ -14,6 +36,31 @@ class IterableTest extends \PHPUnit_Framework_TestCase
         };
 
         $this->assertEquals([0, 2, 4, 6], I::map($callback, $testArray));
+    }
+
+    public function testMapMultiple()
+    {
+        $arrayA = [0, 1, 2, 3];
+        $arrayB = [1, 2, 3, 4];
+        $callback = function ($valA, $valB) {
+            return $valA + $valB;
+        };
+
+        $this->assertEquals([1, 3, 5, 7], I::map($callback, $arrayA, $arrayB));
+    }
+
+    public function testMapMultipleUnequal()
+    {
+        $arrayA = [0, 1, 2, 3];
+        $arrayB = [1, 2, 3];
+        $callback = function ($valA, $valB) {
+            return [$valA, $valB];
+        };
+
+        $this->assertEquals(
+            [[0, 1], [1, 2], [2, 3], [3, null]],
+            I::map($callback, $arrayA, $arrayB)
+        );
     }
 
     public function testWalk()
