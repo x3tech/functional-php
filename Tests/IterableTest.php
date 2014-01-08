@@ -1,6 +1,8 @@
 <?php
 namespace x3\Functional\Tests;
 
+use \ArrayObject;
+
 use x3\Functional\Iterable as I;
 use x3\Functional\Map;
 
@@ -167,5 +169,21 @@ class IterableTest extends \PHPUnit_Framework_TestCase
             ['col' => ['value', 'value2'], 'col2' => ['value3', 'value4']],
             $groupValues($testArray)
         );
+    }
+
+    public function testToArrayKeys()
+    {
+        $this->assertEquals([3 => 1, 1 => 3], I::toArray(new ArrayObject([3 => 1, 1 => 3])));
+    }
+
+    public function testToArray()
+    {
+        $this->assertEquals([1, 2], I::toArray(new ArrayObject([1, 2])));
+    }
+
+    public function testToArrayInvalidArgument()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        I::toArray(null);
     }
 }

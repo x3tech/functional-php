@@ -1,6 +1,8 @@
 <?php
 namespace x3\Functional;
 
+use \Traversable;
+
 use x3\Functional\Functional as F;
 use x3\Functional\ArgPlaceholder as _;
 
@@ -246,5 +248,27 @@ class Iterable
 
             return static::mapKeys($callback, $keys);
         };
+    }
+
+    /**
+     * Convert an iterable to an array
+     *
+     * @param Iterable $iter Iterable to convert
+     *
+     * @return array Result
+     */
+    public static function toArray($iter)
+    {
+        if (!is_array($iter) && !($iter instanceof Traversable)) {
+            throw new \InvalidArgumentException('$iter is not Iterable');
+        }
+
+        if (is_array($iter)) {
+            return $iter;
+        }
+        return static::reduce($iter, function ($result, $item, $key) {
+            $result[$key] = $item;
+            return $result;
+        }, []);
     }
 }
