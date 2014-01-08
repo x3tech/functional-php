@@ -98,6 +98,8 @@ class Iterable
     /**
      * Similar to imap but also map the keys
      *
+     * TODO: Also pass array/iterable keys (No uniform way to do this?)
+     *
      * @param callable $callback  The callback to use
      * @param array    $iter      Data to map
      * @param bool     $multiDict Whether to allow multiple values per key
