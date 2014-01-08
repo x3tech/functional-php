@@ -1,6 +1,8 @@
 <?php
 namespace x3\Functional;
 
+use x3\Functional\ArgPlaceholder as _;
+
 class Functional
 {
     /**
@@ -27,9 +29,19 @@ class Functional
     public static function curry($callback)
     {
         $curryArgs = array_slice(func_get_args(), 1);
+        $argsCallback = function ($args, $arg) {
+            $placeHolderIndex = array_search((string)new _, $args);
+            if ($placeHolderIndex !== false) {
+                $args[$placeHolderIndex] = $arg;
+            } else {
+                $args[] = $arg;
+            }
 
-        return function () use ($callback, $curryArgs) {
-            $args = array_merge($curryArgs, func_get_args());
+            return $args;
+        };
+
+        return function () use ($callback, $curryArgs, $argsCallback) {
+            $args = array_reduce(func_get_args(), $argsCallback, $curryArgs);
             return call_user_func_array($callback, $args);
         };
     }

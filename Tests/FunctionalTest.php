@@ -2,6 +2,7 @@
 namespace x3\Functional\Tests;
 
 use x3\Functional\Functional as F;
+use x3\Functional\ArgPlaceholder as _;
 
 class FunctionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,6 +22,15 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
         }, 1);
 
         $this->assertEquals([1, 2], $curried(2), 'Method not curried');
+    }
+
+    public function testPlaceholderCurry()
+    {
+        $curried = F::curry(function () {
+            return func_get_args();
+        }, new _, 1);
+
+        $this->assertEquals([2, 1], $curried(2), 'Method not curried');
     }
 
     /**
