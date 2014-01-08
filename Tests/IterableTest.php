@@ -78,6 +78,20 @@ class IterableTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testMapKeysMultiple()
+    {
+        $arrayA = [3, 2, 1];
+        $arrayB = [1, 2, 3];
+        $callback = function ($valA, $valB) {
+            return [$valA, $valB];
+        };
+
+        $this->assertEquals(
+            [3 => 1, 2 => 2, 1 => 3],
+            I::mapKeys($callback, $arrayA, $arrayB)
+        );
+    }
+
     public function testGroupBy()
     {
         $testArray = [

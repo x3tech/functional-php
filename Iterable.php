@@ -63,17 +63,37 @@ class Iterable
     /**
      * Similar to imap but also map the keys
      *
-     * TODO: Also pass array/iterable keys (No uniform way to do this?)
+     * Todo:
+     *   Also pass array/iterable keys (No uniform way to do this?)
      *
      * @param callable $callback  The callback to use
-     * @param array    $iter      Data to map
+     * @param Iterable $iter, ... Data to map
      * @param bool     $multiDict Whether to allow multiple values per key
      *
      * @return array The mapped result
      */
-    public static function mapKeys($callback, $iter, $multiDict = false)
+    public static function mapKeys($callback)
     {
-        return D::pairsToDict(static::map($callback, $iter), $multiDict);
+        $restArgs = array_slice(func_get_args(), 1);
+        if (is_bool(end($restArgs))) {
+            list($iter, $multiDict) = [
+                array_slice($restArgs, 0, -1),
+                end($restArgs)
+            ];
+        } else {
+            list($iter, $multiDict) = [
+                $restArgs,
+                false
+            ];
+        }
+
+        return D::pairsToDict(
+            call_user_func_array(
+                'x3\Functional\Iterable::map',
+                array_merge([$callback], static::toArray($iter))
+            ),
+            $multiDict
+        );
     }
 
     /**
