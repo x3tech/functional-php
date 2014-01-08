@@ -19,17 +19,6 @@ class IterableTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testZip()
-    {
-        $arrayA = [0, 1, 2, 3];
-        $arrayB = [1, 2, 3];
-
-        $this->assertEquals(
-            [[0, 1], [1, 2], [2, 3], [3, null]],
-            I::zip([$arrayA, $arrayB])
-        );
-    }
-
     public function testMap()
     {
         $testArray = [0, 1, 2, 3];
@@ -129,27 +118,6 @@ class IterableTest extends \PHPUnit_Framework_TestCase
             return $result + $value;
         };
         $this->assertEquals(6, I::reduce($testArray, $callback, 0));
-    }
-
-    public function testPairsToDict()
-    {
-        $testPairs = [['a', 1], ['a', 3], ['b', 2]];
-        $this->assertEquals(
-            ['a' => 3, 'b' => 2],
-            I::pairsToDict($testPairs),
-            'Failed with singledict'
-        );
-        $this->assertEquals(
-            ['a' => [1, 3], 'b' => [2]],
-            I::pairsToDict($testPairs, true),
-            'Failed with multidict'
-        );
-    }
-
-    public function testDictToPairs()
-    {
-        $testDict = ['a' => 1, 'b' => 2];
-        $this->assertEquals([['a', 1], ['b', 2]], I::dictToPairs($testDict));
     }
 
     public function testPluck()

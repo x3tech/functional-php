@@ -4,6 +4,7 @@ namespace x3\Functional;
 use \Traversable;
 
 use x3\Functional\Functional as F;
+use x3\Functional\Dict as D;
 use x3\Functional\ArgPlaceholder as _;
 
 class Iterable
@@ -23,44 +24,6 @@ class Iterable
     }
 
     /**
-     * Takes an iterable of arrays and zips them (Similar to Python's `zip`)
-     *
-     * Example:
-     *   >>> Iterable::zip([[1, 2, 3], [4, 5]])
-     *   [[1, 4], [2, 5], [3, null]]
-     *
-     * Note:
-     *   as opposed to Python arrays are padded with null if they're shorter
-     *   than the longest array.
-     *
-     * @param Iterable $arrays The arrays to zip
-     *
-     * @return array Zipped arrays
-     */
-    public static function zip(array $arrays)
-    {
-        return static::internalZip($arrays, 'x3\Functional\Iterable::map');
-    }
-
-    /**
-     * @internal
-     *
-     * Internal use, as `map` also uses zip, but that would cause infinite
-     * recursion we use an internal function with a specifiable map function
-     */
-    protected static function internalZip(array $arrays, $mapFunc = 'array_map')
-    {
-        $callback = function () {
-            return func_get_args();
-        };
-
-        return call_user_func_array(
-            $mapFunc,
-            array_merge([$callback], $arrays)
-        );
-    }
-
-    /**
      * array_map but for iterables instead of just arrays
      *
      * @param callable $callback The mapping callback
@@ -74,7 +37,7 @@ class Iterable
             throw new \InvalidArgumentException('$callback isn\'t callable');
         }
 
-        $iter = static::internalZip(array_slice(func_get_args(), 1));
+        $iter = D::zip(array_slice(func_get_args(), 1));
 
         return static::reduce($iter, function ($result, $item) use ($callback) {
             $result[] = call_user_func_array($callback, $item);
@@ -110,7 +73,7 @@ class Iterable
      */
     public static function mapKeys($callback, $iter, $multiDict = false)
     {
-        return static::pairsToDict(static::map($callback, $iter), $multiDict);
+        return D::pairsToDict(static::map($callback, $iter), $multiDict);
     }
 
     /**
@@ -166,55 +129,6 @@ class Iterable
         }
 
         return $result;
-    }
-
-    /**
-     * Convert key-value pairs to a key=>value array (dict)
-     *
-     * @param iterable $pairs The pairs to convert
-     * @param bool     $multiDict Wether to allow multiple values per key
-     *
-     * @return array key=>value dict
-     */
-    public static function pairsToDict($pairs, $multiDict = false)
-    {
-        $callback = function ($result, $pair) use ($multiDict) {
-            list($key, $value) = $pair;
-            if ($multiDict) {
-                if (!isset($result[$key])) {
-                    $result[$key] = [];
-                }
-                $result[$key][] = $value;
-            } else {
-                $result[$key] = $value;
-            }
-
-            return $result;
-        };
-
-        return static::reduce($pairs, $callback, []);
-    }
-
-    /**
-     * Convert a dict to pairs
-     *
-     * Example:
-     *   >>> Iterable::dictToPairs(['a' => 1, 'b' => 2])
-     *   [['a', 1], ['b', 2]]
-     *
-     * TODO: Iterable support
-     *
-     * @param array $dict The dict to convert
-     *
-     * @return array The pairs
-     */
-    public static function dictToPairs(array $dict)
-    {
-        $callback = function () {
-            return func_get_args();
-        };
-
-        return static::map($callback, array_keys($dict), $dict);
     }
 
     /**
