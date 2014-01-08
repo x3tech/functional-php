@@ -144,6 +144,12 @@ class IterableTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDictToPairs()
+    {
+        $testDict = ['a' => 1, 'b' => 2];
+        $this->assertEquals([['a', 1], ['b', 2]], I::dictToPairs($testDict));
+    }
+
     public function testPluck()
     {
         $testArray = [['col' => 'value'], ['col' => 'value2']];

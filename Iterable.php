@@ -192,6 +192,28 @@ class Iterable
     }
 
     /**
+     * Convert a dict to pairs
+     *
+     * Example:
+     *   >>> Iterable::dictToPairs(['a' => 1, 'b' => 2])
+     *   [['a', 1], ['b', 2]]
+     *
+     * TODO: Iterable support
+     *
+     * @param array $dict The dict to convert
+     *
+     * @return array The pairs
+     */
+    public static function dictToPairs(array $dict)
+    {
+        $callback = function () {
+            return func_get_args();
+        };
+
+        return static::map($callback, array_keys($dict), $dict);
+    }
+
+    /**
      * Pluck `$column` from the children of `$array`
      *
      * @param array $array  The array to pluck from
